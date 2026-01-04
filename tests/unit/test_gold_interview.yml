@@ -1,0 +1,17 @@
+unit_tests:
+  - name: test_fact_interview_status_metrics
+    model: fact_interview
+    given:
+      - input: ref('stg_interview')
+        rows:
+          - {id: 'I001', candidate_type: 'internal', _offset: 1, status: 'DRAFT', interviewer_id: 10, location: 'Remote', logged: true, media_available: true, run_type: 'TECH', type: 'ONSITE', media_status: 'OK', invite_answer_status: 'ACCEPTED', row_valid_from: '2023-01-01 09:00:00'}
+          - {id: 'I001', candidate_type: 'internal', _offset: 2, status: 'IN_PROGRESS', interviewer_id: 10, location: 'Remote', logged: true, media_available: true, run_type: 'TECH', type: 'ONSITE', media_status: 'OK', invite_answer_status: 'ACCEPTED', row_valid_from: '2023-01-01 10:00:00'}
+          - {id: 'I001', candidate_type: 'internal', _offset: 3, status: 'PENDING_FEEDBACK', interviewer_id: 10, location: 'Remote', logged: true, media_available: true, run_type: 'TECH', type: 'ONSITE', media_status: 'OK', invite_answer_status: 'ACCEPTED', row_valid_from: '2023-01-01 12:00:00'}
+          - {id: 'I001', candidate_type: 'internal', _offset: 4, status: 'COMPLETED', interviewer_id: 10, location: 'Remote', logged: true, media_available: true, run_type: 'TECH', type: 'ONSITE', media_status: 'OK', invite_answer_status: 'ACCEPTED', row_valid_from: '2023-01-01 15:00:00'}
+          - {id: 'I002', candidate_type: 'external', _offset: 1, status: 'DRAFT', interviewer_id: 20, location: 'Onsite', logged: false, media_available: false, run_type: 'HR', type: 'REMOTE', media_status: 'PENDING', invite_answer_status: 'PENDING', row_valid_from: '2023-02-01 09:00:00'}
+          - {id: 'I002', candidate_type: 'external', _offset: 2, status: 'IN_PROGRESS', interviewer_id: 20, location: 'Onsite', logged: false, media_available: false, run_type: 'HR', type: 'REMOTE', media_status: 'PENDING', invite_answer_status: 'PENDING', row_valid_from: '2023-02-01 10:00:00'}
+          - {id: 'I002', candidate_type: 'external', _offset: 3, status: 'CANCELLED', interviewer_id: 20, location: 'Onsite', logged: false, media_available: false, run_type: 'HR', type: 'REMOTE', media_status: 'PENDING', invite_answer_status: 'PENDING', row_valid_from: '2023-02-01 11:00:00'}
+    expect:
+      rows:
+        - {id: 'I001', candidate_type: 'internal', candidate_offset: 1, status: 'DRAFT', interviewer_offset: 10, location: 'Remote', logged: true, media_available: true, run_type: 'TECH', type: 'ONSITE', media_status: 'OK', invite_answer_status: 'ACCEPTED', in_progress_datetime: '2023-01-01 10:00:00', pending_feedback_datetime: '2023-01-01 12:00:00', completed_datetime: '2023-01-01 15:00:00', cancelled_datetime: null, interview_duration: 2, feedback_delay: 3}
+        - {id: 'I002', candidate_type: 'external', candidate_offset: 1, status: 'DRAFT', interviewer_offset: 20, location: 'Onsite', logged: false, media_available: false, run_type: 'HR', type: 'REMOTE', media_status: 'PENDING', invite_answer_status: 'PENDING', in_progress_datetime: '2023-02-01 10:00:00', pending_feedback_datetime: null, completed_datetime: null, cancelled_datetime: '2023-02-01 11:00:00', interview_duration: null, feedback_delay: null}

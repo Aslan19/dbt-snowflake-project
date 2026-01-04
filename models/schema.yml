@@ -1,0 +1,120 @@
+version: 2
+
+sources:
+  - name: raw
+    description: "Raw ingestion schema containing upstream source tables."
+    database: DBT_PROJECT
+    schema: raw
+    loaded_at_field: "TO_TIMESTAMP(TRY_TO_NUMBER(_UPDATED_MICROS) / 1e6)"
+    freshness:
+      warn_after: {count: 283, period: day}
+      error_after: {count: 285, period: day}
+    # freshness_filter: >
+    #       TO_TIMESTAMP(TRY_TO_NUMBER(_UPDATED_MICROS) / 1e6)
+    tables:
+
+      - name: CANDIDATES
+        # identifier: CANDIDATES
+        description: Raw candidates feed from the recruiting system.
+        
+        columns:
+          - name: CANDIDATE_ID
+            description: "Candidate primary identifier (string)."
+            tests:
+              - not_null
+              # - unique
+
+          - name: JOB_FUNCTION_ID
+            tests:
+              - relationships:
+                  to: source('raw', 'JOB_FUNCTIONS')
+                  field: JOB_FUNCTION_ID
+
+          - name: PRIMARY_SKILL_ID
+            tests:
+              - relationships:
+                  field: ID
+                  to: source('raw', 'SKILLS')
+                  
+      - name: EMPLOYEES
+        identifier: EMPLOYEES
+        description: "Raw employees snapshot from HR."
+        
+        columns:
+          - name: EMPLOYEE_ID
+            description: "Employee identifier."
+            tests:
+              - not_null
+                  # severity: warn    
+              # - unique
+          - name: JOB_FUNCTION_ID
+            tests:
+              - relationships:
+                  to: source('raw', 'JOB_FUNCTIONS')
+                  field: JOB_FUNCTION_ID
+
+          - name: PRIMARY_SKILL_ID
+            tests:
+              - relationships:
+                  field: ID
+                  to: source('raw', 'SKILLS')
+
+      - name: INTERVIEWS
+        identifier: INTERVIEWS
+        description: "Raw interview data."
+        loaded_at_field: "TO_TIMESTAMP(TRY_TO_NUMBER(_UPDATED_MICROS) / 1e6)"
+        freshness:
+          warn_after: {count: 7, period: day}   
+          error_after: {count: 14, period: day}  
+        columns:
+          - name: ID
+            description: "Interview identifier."
+            tests:
+              - not_null
+
+          - name: CANDIDATE_ID
+            description: "Interview Candidate ID"
+            tests:
+              - relationships:
+                  to: source('raw', 'CANDIDATES')
+                  field: CANDIDATE_ID
+
+          - name: INTERVIEWER_ID
+            description: "Interview Employee ID"
+            tests:
+              - relationships:
+                  to: source('raw', 'EMPLOYEES')
+                  field: EMPLOYEE_ID
+
+          
+
+
+      - name: JOB_FUNCTIONS
+        identifier: JOB_FUNCTIONS
+        description: "Raw JOB_FUNCTIONS data."
+        loaded_at_field: "TO_TIMESTAMP(TRY_TO_NUMBER(_UPDATED_MICROS) / 1e6)"
+        freshness:
+          warn_after: {count: 400, period: day}   
+          error_after: {count: 500, period: day}  
+        columns:
+          - name: JOB_FUNCTION_ID
+            tests:
+              - not_null
+
+      - name: SKILLS
+        identifier: SKILLS
+        description: "Raw SKILLS data."
+        loaded_at_field: "TO_TIMESTAMP(TRY_TO_NUMBER(_UPDATED_MICROS) / 1e6)"
+        freshness:
+          warn_after: {count: 300, period: day}   
+          error_after: {count: 400, period: day}  
+        columns:
+          - name: ID
+            tests:
+              - not_null
+
+          - name: PARENT_ID
+            tests:
+              - relationships:
+                  to: source('raw', 'SKILLS')
+                  field: ID

@@ -1,0 +1,54 @@
+models:
+  - name: latest_stg_candidate
+    description: "{{ doc('stg_candidate_latest') }}"
+    columns:
+      - name: CANDIDATE_ID
+        tests:
+          - not_null
+          - unique
+
+
+      - name: ROW_IS_ACTIVE
+        tests:
+          - dbt_expectations.expect_column_values_to_be_in_set:
+              arguments:
+                value_set: [0, 1]
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments:
+                column_type: integer
+                
+      - name: ENGLISH_LEVEL
+        tests:
+          - english_level_check
+
+      - name: STAFFING_STATUS
+        tests:
+          - dbt_expectations.expect_column_values_to_be_in_set:
+              arguments:
+                value_set: ['AVAILABLE', 'EMPLOYED', 'UNDERCONSIDERATION']
+
+  - name: latest_stg_employee
+    description: "{{ doc('stg_employee_latest') }}"
+    columns:
+      - name: EMPLOYEE_ID
+        tests:
+          - not_null
+          - unique
+
+      - name: ROW_IS_ACTIVE
+        tests:
+        - dbt_expectations.expect_column_values_to_be_in_set:
+            arguments: 
+              value_set: [0, 1]
+        - dbt_expectations.expect_column_values_to_be_of_type:
+            arguments:
+              column_type: integer
+
+  - name: latest_stg_interview
+    description: "{{ doc('stg_interview_latest') }}"
+
+  - name: latest_stg_job_function
+    description: "{{ doc('stg_job_function_latest') }}"
+
+  - name: latest_stg_skill
+    description: "{{ doc('stg_skill_latest') }}"

@@ -1,0 +1,21 @@
+version: 2
+
+seeds:
+  - name: staging_config
+    description: "Configuration for transforming raw tables into staging models."
+    columns:
+      - name: raw_table_name
+        description: "Name of the raw source table."
+        data_type: varchar
+      - name: raw_column_name
+        description: "Original column name in the raw layer."
+        data_type: varchar
+      - name: target_column_name
+        description: "Desired transformed column name in staging."
+        data_type: varchar
+      - name: target_data_type
+        description: "Target data type to cast the column to."
+        data_type: varchar
+      - name: target_order_num
+        description: "Desired column ordering in staging model."
+        data_type: number

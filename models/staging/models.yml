@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: stg_interview
+    description: "{{ doc('stg_interview') }}"
+
+  - name: stg_candidate
+    description: "{{ doc('stg_candidate') }}"
+
+  - name: stg_employee
+    description: "{{ doc('stg_employee') }}"
+
+  - name: stg_job_function
+    description: "{{ doc('stg_job_function') }}"
+
+  - name: stg_skill
+    description: "{{ doc('stg_skill') }}"
+
+  - name: stg_date
+    description: "{{ doc('stg_date') }}"
