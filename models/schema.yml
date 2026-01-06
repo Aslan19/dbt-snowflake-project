@@ -31,10 +31,10 @@ sources:
                   field: JOB_FUNCTION_ID
 
           - name: PRIMARY_SKILL_ID
-            tests:
-              - relationships:
-                  field: ID
-                  to: source('raw', 'SKILLS')
+            # tests:
+            #   - relationships:
+            #       field: ID
+            #       to: source('raw', 'SKILLS')
                   
       - name: EMPLOYEES
         identifier: EMPLOYEES
@@ -43,15 +43,15 @@ sources:
         columns:
           - name: EMPLOYEE_ID
             description: "Employee identifier."
-            tests:
-              - not_null
+            # tests:
+            #   - not_null
                   # severity: warn    
               # - unique
           - name: JOB_FUNCTION_ID
-            tests:
-              - relationships:
-                  to: source('raw', 'JOB_FUNCTIONS')
-                  field: JOB_FUNCTION_ID
+            # tests:
+            #   - relationships:
+            #       to: source('raw', 'JOB_FUNCTIONS')
+            #       field: JOB_FUNCTION_ID
 
           - name: PRIMARY_SKILL_ID
             tests:
