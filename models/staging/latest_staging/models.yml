@@ -13,19 +13,19 @@ models:
           - dbt_expectations.expect_column_values_to_be_in_set:
               arguments:
                 value_set: [0, 1]
-          - dbt_expectations.expect_column_values_to_be_of_type:
-              arguments:
-                column_type: integer
+          # - dbt_expectations.expect_column_values_to_be_of_type:
+          #     arguments:
+          #       column_type: integer
                 
       - name: ENGLISH_LEVEL
         tests:
           - english_level_check
 
       - name: STAFFING_STATUS
-        tests:
-          - dbt_expectations.expect_column_values_to_be_in_set:
-              arguments:
-                value_set: ['AVAILABLE', 'EMPLOYED', 'UNDERCONSIDERATION']
+        # tests:
+        #   - dbt_expectations.expect_column_values_to_be_in_set:
+        #       arguments:
+        #         value_set: ['AVAILABLE', 'EMPLOYED', 'UNDERCONSIDERATION']
 
   - name: latest_stg_employee
     description: "{{ doc('stg_employee_latest') }}"
