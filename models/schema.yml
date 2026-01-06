@@ -6,9 +6,9 @@ sources:
     database: DBT_PROJECT
     schema: raw
     loaded_at_field: "TO_TIMESTAMP(TRY_TO_NUMBER(_UPDATED_MICROS) / 1e6)"
-    freshness:
-      warn_after: {count: 283, period: day}
-      error_after: {count: 285, period: day}
+    # freshness:
+    #   warn_after: {count: 283, period: day}
+    #   error_after: {count: 285, period: day}
     # freshness_filter: >
     #       TO_TIMESTAMP(TRY_TO_NUMBER(_UPDATED_MICROS) / 1e6)
     tables:
@@ -63,9 +63,9 @@ sources:
         identifier: INTERVIEWS
         description: "Raw interview data."
         loaded_at_field: "TO_TIMESTAMP(TRY_TO_NUMBER(_UPDATED_MICROS) / 1e6)"
-        freshness:
-          warn_after: {count: 7, period: day}   
-          error_after: {count: 14, period: day}  
+        # freshness:
+        #   warn_after: {count: 7, period: day}   
+        #   error_after: {count: 14, period: day}  
         columns:
           - name: ID
             description: "Interview identifier."
@@ -93,9 +93,9 @@ sources:
         identifier: JOB_FUNCTIONS
         description: "Raw JOB_FUNCTIONS data."
         loaded_at_field: "TO_TIMESTAMP(TRY_TO_NUMBER(_UPDATED_MICROS) / 1e6)"
-        freshness:
-          warn_after: {count: 400, period: day}   
-          error_after: {count: 500, period: day}  
+        # freshness:
+        #   warn_after: {count: 400, period: day}   
+        #   error_after: {count: 500, period: day}  
         columns:
           - name: JOB_FUNCTION_ID
             tests:
@@ -105,9 +105,9 @@ sources:
         identifier: SKILLS
         description: "Raw SKILLS data."
         loaded_at_field: "TO_TIMESTAMP(TRY_TO_NUMBER(_UPDATED_MICROS) / 1e6)"
-        freshness:
-          warn_after: {count: 300, period: day}   
-          error_after: {count: 400, period: day}  
+        # freshness:
+        #   warn_after: {count: 300, period: day}   
+        #   error_after: {count: 400, period: day}  
         columns:
           - name: ID
             tests:
