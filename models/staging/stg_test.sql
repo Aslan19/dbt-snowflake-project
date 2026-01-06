@@ -5,3 +5,5 @@ union all
 select 'three' as rank
 union all
 select 'four' as rank
+union all
+select 'five' as rank
