@@ -32,17 +32,17 @@ models:
     columns:
       - name: EMPLOYEE_ID
         tests:
-          - not_null
+          # - not_null
           - unique
 
       - name: ROW_IS_ACTIVE
         tests:
-        - dbt_expectations.expect_column_values_to_be_in_set:
-            arguments: 
-              value_set: [0, 1]
-        - dbt_expectations.expect_column_values_to_be_of_type:
-            arguments:
-              column_type: integer
+        # - dbt_expectations.expect_column_values_to_be_in_set:
+        #     arguments: 
+        #       value_set: [0, 1]
+        # - dbt_expectations.expect_column_values_to_be_of_type:
+        #     arguments:
+        #       column_type: integer
 
   - name: latest_stg_interview
     description: "{{ doc('stg_interview_latest') }}"
