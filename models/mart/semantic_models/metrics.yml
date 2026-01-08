@@ -1,0 +1,32 @@
+version: 2
+
+metrics:
+  - name: interview_count
+    label: Interview Count
+    description: Total number of interviews.
+    type: simple
+    type_params:
+      measure: interview_count
+
+  - name: avg_interview_duration
+    label: Average Interview Duration
+    description: Average duration of interviews in minutes.
+    type: simple
+    type_params:
+      measure: interview_duration_minutes
+
+  - name: avg_feedback_delay
+    label: Average Feedback Delay
+    description: Average time to provide feedback after interviews.
+    type: simple
+    type_params:
+      measure: feedback_delay_minutes
+
+  - name: completed_interview_count
+    label: Completed Interviews
+    description: Number of interviews that reached completed status.
+    type: simple
+    type_params:
+      measure: interview_count
+    filter: |
+      {{ Dimension('status') }} = 'completed'

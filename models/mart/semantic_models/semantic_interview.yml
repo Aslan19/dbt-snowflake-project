@@ -1,0 +1,67 @@
+version: 2
+
+semantic_models:
+  - name: interview
+    description: Semantic model representing interviews as the core business event.
+    model: ref('fct_interview')
+    defaults:
+      agg_time_dimension: created_datetime
+
+    entities:
+      - name: interview
+        type: primary
+        expr: id
+
+      - name: candidate
+        type: foreign
+        expr: candidate_id
+
+      - name: interviewer
+        type: foreign
+        expr: interviewer_id
+
+      - name: job_function
+        type: foreign
+        expr: job_function_id
+
+    dimensions:
+      - name: created_datetime
+        type: time
+        type_params:
+          time_granularity: day
+
+      - name: finished_datetime
+        type: time
+        type_params:
+          time_granularity: day
+
+      - name: interview_type
+        type: categorical
+
+      - name: location
+        type: categorical
+
+      - name: run_type
+        type: categorical
+
+      - name: status
+        type: categorical
+
+      - name: candidate_type
+        type: categorical
+
+    measures:
+      - name: interview_count
+        description: Number of interviews.
+        agg: count
+        expr: id
+
+      - name: interview_duration_minutes
+        description: Duration of interviews in minutes.
+        agg: average
+        expr: interview_duration
+
+      - name: feedback_delay_minutes
+        description: Time taken to provide feedback after interviews.
+        agg: average
+        expr: feedback_delay
